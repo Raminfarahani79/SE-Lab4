@@ -30,4 +30,10 @@ public class MyStepdefs {
     public void iExpectTheResult(int arg0) {
         Assert.assertEquals(arg0, result);
     }
+
+    @When("I calculate the square root of the division of the numbers")
+    public void iCalculateTheSquareRootOfTheDivisionOfTheNumbers() {
+        result = calculator.sqrt(calculator.divide(value1, value2));
+        System.out.print(result);
+    }
 }
