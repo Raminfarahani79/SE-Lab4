@@ -10,6 +10,6 @@ public class Calculator {
     }
 
     public int sqrt(int a) {
-        throw new RuntimeException("method not implemented");
+        return (int)Math.sqrt(a);
     }
 }

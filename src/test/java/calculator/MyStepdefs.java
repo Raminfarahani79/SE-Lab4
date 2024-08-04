@@ -37,6 +37,17 @@ public class MyStepdefs {
         System.out.print(result);
     }
 
+    @Given("a value {int}")
+    public void aValue(int arg0) {
+        value1 = arg0;
+    }
+
+    @When("I calculate the square root of the value")
+    public void iCalculateTheSquareRootOfTheValue() {
+        result = calculator.sqrt(value1);
+        System.out.print(result);
+    }
+
     @When("I calculate the square root of the division of the numbers")
     public void iCalculateTheSquareRootOfTheDivisionOfTheNumbers() {
         result = calculator.sqrt(calculator.divide(value1, value2));

@@ -30,6 +30,21 @@ Feature: Calculator
    | -4    | -2     | 2      |
    | 0     | 1      | 0      |
 
+ Scenario: square root of a number
+  Given a value 4
+  When I calculate the square root of the value
+  Then I expect the result 2
+
+ Scenario Outline: square root of a number
+  Given a value <first>
+  When I calculate the square root of the value
+  Then I expect the result <result>
+  Examples:
+   | first | result |
+   | 36    | 6      |
+   | 16    | 4      |
+   | 9     | 3      |
+
  Scenario Outline: square root and division
   Given Two input values, <a> and <b>
   When I calculate the square root of the division of the numbers
