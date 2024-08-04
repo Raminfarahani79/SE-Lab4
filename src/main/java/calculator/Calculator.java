@@ -6,7 +6,7 @@ public class Calculator {
     }
 
     public int divide(int a, int b) {
-        throw new RuntimeException("method not implemented");
+        return a/b;
     }
 
     public int sqrt(int a) {

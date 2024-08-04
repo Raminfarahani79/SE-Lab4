@@ -15,6 +15,21 @@ Feature: Calculator
    | -1    | 6      | 5      |
    | 2     | -2     | 0      |
 
+ Scenario: divide two numbers
+  Given Two input values, 4 and 2
+  When I divide the two values
+  Then I expect the result 2
+
+ Scenario Outline: divide two numbers
+  Given Two input values, <first> and <second>
+  When I divide the two values
+  Then I expect the result <result>
+  Examples:
+   | first | second | result |
+   | 12    | 6      | 2      |
+   | -4    | -2     | 2      |
+   | 0     | 1      | 0      |
+
  Scenario Outline: square root and division
   Given Two input values, <a> and <b>
   When I calculate the square root of the division of the numbers
