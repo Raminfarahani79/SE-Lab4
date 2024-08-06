@@ -41,3 +41,113 @@
 شایان ذکر است که وقتی که تست‌های جذر پاس شوند، تست‌های سناریو‌ی خواسته شده هم همزمان با آن پاس می‌شوند.
 این یعنی فیچر ما به طور کامل پیاده‌سازی شده است.
 ![Screenshot from 2024-08-05 00-15-11](https://github.com/user-attachments/assets/855c0900-27c0-4fe2-bb75-df48c516abce)
+
+<div dir="rtl">
+
+### بخش ۳: - Profiling
+ابتدا برنامه مورد نظر را مطابق ویدیو آموزش اجرا می‌کنیم. 
+
+طیق عکس زیر مشخص است که تابع temp() بیشترین زمان اجرا را از cpu گرفته است.
+
+<img src="src/image/first.png">
+<img src="src/image/cpu.png">
+<img src="src/image/mem.png">
+
+دلیل مصرف زیاد زمان در این تابع این است که حافظه را از پیش نگرفته و در هربار افزودن باید آن را مجدد بگیرد.
+
+کد را به صورت زیر تغییر می دهیم و مموری مورد نیاز را از همان ابتدا در یک آرایه می‌گیریم.
+
+<div dir="ltr">
+
+```java
+public static void temp() {
+        int[] b = new int[10000 * 20000];
+        for (int i = 0; i < 10000; i++)
+        {
+            int r = i * 10000;
+            for (int j = 0; j < 20000; j++) {
+                b[r + j] = i + j;
+            }
+        }
+    }
+```
+
+<div dir="rtl">
+
+<img src="src/image/second.png">
+
+مشاهده می‌شود که زمان اجرا تابع تقریبا ۹۰ درصد کاهش پیدا کرده است.
+
+<img src="src/image/cpu2.png">
+همچنین مصرف cpu نیز مخصوصا در کرنل کاهش پیدا کرده است چون برخلاف حالت قبلی دیگر نیاز به درخواست مموری مجدد در زمان اجرا برنامه نیست.
+
+
+<img src="src/image/forth.png">
+
+کاهش شدید مموری نیز کاملا مشخص است چون مموری از ابتدا فیکس است.
+
+
+### بخش ۳ - پارت دوم
+ابتدا قطعه کد زیر را برای محاسبه فاکتوریل می‌نویسیم.
+
+<div dir="ltr">
+
+````java
+public class Factorial {
+
+    public static void main(String[] args) {
+        int number = 20;
+        System.out.println("Factorial of " + number + " is: " + factorial(number));
+    }
+
+    public static long factorial(int n) {
+        if (n == 0) {
+            return 1;
+        } else {
+            return n * factorial(n - 1);
+        }
+    }
+}
+
+````
+<div dir="rtl">
+
+
+مموری و cpu مصرفی به صورت زیر است.
+
+<img src="src/image/mem3.png">
+<img src="src/image/cpu3.png">
+
+حالا ورژن بهینه آن را بدون بازگشتی پیاده‌سازی می‌کنیم.
+
+<div dir="ltr">
+
+
+```java
+public class Factorial {
+
+    public static void main(String[] args) {
+        int number = 20;
+        System.out.println("Factorial of " + number + " is: " + factorial(number));
+    }
+
+    public static long factorial(int n) {
+        long result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+}
+
+```
+
+<div dir="rtl">
+
+نتیجه را در ۲ عکس زیر می‌بینیم.
+
+<img src="src/image/mem4.png">
+<img src="src/image/cpu4.png">
+
+می‌بینیم که cpu تقریبا تغییری نداشته اما مموری به شدت کاهش یافته‌است چون توابع بازگشتی بخاطر ذخیره حالت تابع، مموری زیادی مصرف می کنند.
+
